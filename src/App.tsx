@@ -11,16 +11,16 @@ function App() {
 
   return (
 
-    <FullSreenNav />
-
-    // <div className='overflow-x-hidden text-white'>
-    //   <Navbar />
-    //   <Routes >
-    //     <Route path='/' element={<Home />} />
-    //     <Route path='/agence' element={<Agence />} />
-    //     <Route path='/travail' element={<Project />} />
-    //   </Routes>
-    // </div>
+    
+    <div className='overflow-x-hidden text-white'>
+      <Navbar />
+      <FullSreenNav />
+      <Routes >
+        <Route path='/' element={<Home />} />
+        <Route path='/agence' element={<Agence />} />
+        <Route path='/travail' element={<Project />} />
+      </Routes>
+    </div>
   )
 }
 
