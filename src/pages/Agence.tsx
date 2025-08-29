@@ -39,13 +39,17 @@ export default function Agence() {
         gsap.to(imageDivRef.current, {
             scrollTrigger: {
                 trigger: imageDivRef.current,
-                markers: true,
+                // markers: true,
                 start: "top 39.7%",
                 end: "top -70%",
                 // scrub: true,
-                pin: true,
-                onUpdate: (element) => {
-                    const imageIndex = Math.floor(element.progress * imgArr.length)
+                // pin: true,
+                
+                onUpdate: (elem) => {
+                    const imageIndex = Math.min(
+                        Math.floor(elem.progress * imgArr.length),
+                        imgArr.length - 1
+                    );
                     if (imgRef.current) {
                         imgRef.current.src = imgArr[imageIndex];
                     }
@@ -55,9 +59,9 @@ export default function Agence() {
     })
 
     return (
-        <div>
+        <div className="text-black">
 
-            <div className="section1">
+            <div className="section1 py-1">
                 <div ref={imageDivRef} className="h-[20vw] rounded-4xl overflow-hidden w-[15vw] absolute top-96 left-[30vw]">
                     <img ref={imgRef} className="h-full w-full object-cover" src="https://k72.ca/uploads/teamMembers/Carl_480x640-480x640.jpg" alt="" />
                 </div>

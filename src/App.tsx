@@ -6,14 +6,15 @@ import Agence from './pages/Agence'
 
 function App() {
 
+
   return (
-    // <div className='overflow-x-hidden'>
+    <div className='overflow-x-hidden text-white'>
       <Routes >
         <Route path='/' element={<Home />} />
         <Route path='/agence' element={<Agence />} />
         <Route path='/travail' element={<Project />} />
       </Routes>
-    // </div>
+    </div>
   )
 }
 
