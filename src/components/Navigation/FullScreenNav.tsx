@@ -15,65 +15,74 @@ const FullSreenNav = () => {
 
     const fullNavLinkRef = useRef(null);
     const fullScreenRef = useRef<HTMLDivElement | null>(null);
-    
+
+
 
     function gsapAnimation() {
-        const tl = gsap.timeline()
-        tl.to('.fullscreennav', {
-            display: 'block'
-        })
-        tl.to('.stairing', {
+        const tl = gsap.timeline();
+        tl.set(".fullscreennav", { display: "block" }); // show container
+
+        // Animate stairs first
+        tl.to(".stairing", {
             delay: 0.2,
-            height: '100%',
-            stagger: {
-                amount: -0.3
-            }
-        })
-        tl.to('.link', {
+            height: "100%",
+            stagger: { amount: -0.3 },
+        });
+
+        // Show cross AFTER stairs animation finishes
+        tl.to(".nav-cross", { opacity: 1, duration: 0.3 });
+
+        // Animate links
+        tl.to(".link", {
             opacity: 1,
             rotateX: 0,
-            stagger: {
-                amount: 0.3
-            }
-        })
-        tl.to('.navlink', {
-            opacity: 1
-        })
+            stagger: { amount: 0.3 },
+        });
+        tl.to(".navlink", { opacity: 1 });
     }
+
     function gsapAnimationReverse() {
-        const tl = gsap.timeline()
-        tl.to('.link', {
+        const tl = gsap.timeline();
+
+        tl.to(".link", {
             opacity: 0,
             rotateX: 90,
-            stagger: {
-                amount: 0.1
-            }
-        })
-        tl.to('.stairing', {
+            stagger: { amount: 0.1 },
+        });
+        tl.to(".stairing", {
             height: 0,
-            stagger: {
-                amount: 0.1
-            }
-        })
-        tl.to('.navlink', {
-            opacity: 0
-        })
-        tl.to('.fullscreennav', {
-            display: 'none',
-        })
+            stagger: { amount: 0.1 },
+        });
+        tl.to(".navlink", { opacity: 0 });
+
+        // Hide cross before closing nav container
+        tl.to(".nav-cross", { opacity: 0, duration: 0.3 }, 0);
+
+        // Finally hide nav
+        tl.set(".fullscreennav", { display: "none" });
     }
 
+    // Initial state setup
+    useGSAP(() => {
+        gsap.set(".fullscreennav", { display: "none" });
+        gsap.set(".stairing", { height: 0 });
+        gsap.set(".link", { opacity: 0, rotateX: 90 });
+        gsap.set(".navlink", { opacity: 0 });
+        gsap.set(".nav-cross", { opacity: 0 }); // cross hidden initially
+    }, []);
 
-    useGSAP(function () {
-        if (navOpen) {
+    // Trigger animation when navOpen changes
+    useGSAP(
+        () => {
+            if (navOpen) {
+                gsapAnimation();
+            } else {
+                gsapAnimationReverse();
+            }
+        },
+        [navOpen]
+    );
 
-            gsapAnimation()
-        } else {
-
-            gsapAnimationReverse()
-
-        }
-    }, [navOpen])
 
     return (
         <div ref={fullScreenRef} className="fullscreennav h-screen w-full absolute text-white overflow-hidden z-50">
@@ -97,7 +106,7 @@ const FullSreenNav = () => {
                             </div>
                         </div>
                     </div>
-                    <div onClick={() => setNavOpen(false)} className="h-32 w-32 relative cursor-pointer">
+                    <div onClick={() => setNavOpen(false)} className="nav-cross h-32 w-32 relative cursor-pointer">
                         <div className="h-full w-2 -rotate-45 origin-left bg-[#D3FD50] absolute"></div>
                         <div className="h-full w-2 rotate-45 origin-right bg-[#D3FD50] absolute"></div>
                     </div>
